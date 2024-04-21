@@ -24,12 +24,20 @@ class Channel:
     Topic-Channel has a 1-many relationship.
     """
 
-    def __init__(self, socket: Socket, topic: str, params: Dict[str, Any] = {}) -> None:
+    def __init__(
+            self,
+            socket: Socket,
+            topic: str,
+            params: Dict[str, Any] | None = None
+    ) -> None:
         """
         :param socket: Socket object
         :param topic: Topic that it subscribes to on the realtime server
         :param params:
         """
+        if params is None:
+            params = {}
+
         self.socket = socket
         self.params = params
         self.topic = topic

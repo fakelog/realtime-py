@@ -17,6 +17,7 @@ from realtime.types import Callback, T_ParamSpec, T_Retval
 #     format="%(asctime)s:%(levelname)s - %(message)s", level=logging.INFO
 # )
 
+
 def ensure_connection(func: Callback):
     @wraps(func)
     def wrapper(*args: T_ParamSpec.args, **kwargs: T_ParamSpec.kwargs) -> T_Retval:
@@ -33,7 +34,7 @@ class Socket:
         self,
         url: str,
         auto_reconnect: bool = False,
-        params: Dict[str, Any] = {},
+        params: Dict[str, Any] | None = None,
         hb_interval: int = 5,
     ) -> None:
         """
@@ -44,6 +45,9 @@ class Socket:
         :param params: Optional parameters for connection.
         :param hb_interval: WS connection is kept alive by sending a heartbeat message. Optional, defaults to 5.
         """
+        if params is None:
+            params = {}
+
         self.url = url
         self.channels = defaultdict(list)
         self.connected = False

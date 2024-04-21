@@ -41,7 +41,10 @@ to its mapped type.
 """
 
 
-def convert_change_data(columns, records, options={}):
+def convert_change_data(columns, records, options=None):
+    if options is None:
+        options = {}
+
     skip_types = options.get("skip_types") if options.get(
         "skip_types") == "undefined" else []
     return {
