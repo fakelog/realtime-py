@@ -44,6 +44,14 @@ class Channel:
         self.listeners: List[CallbackListener] = []
         self.joined = False
 
+    async def join_async(self) -> Channel:
+        """
+        Wrapper for async def _join() to expose the async interface
+        :return: Channel
+        """
+        await self._join()
+        return self
+
     def join(self) -> Channel:
         """
         Wrapper for async def _join() to expose a non-async interface

@@ -60,6 +60,14 @@ class Socket:
         self.channels: DefaultDict[str, List[Channel]] = defaultdict(list)
 
     @ensure_connection
+    async def listen_async(self) -> None:
+        """
+        Wrapper for async def _listen() to expose the async interface
+        :return: None
+        """
+        await asyncio.gather(self._listen(), self._keep_alive())
+
+    @ensure_connection
     def listen(self) -> None:
         """
         Wrapper for async def _listen() to expose a non-async interface
@@ -98,6 +106,13 @@ class Socket:
                 else:
                     logging.exception("Connection with the server closed.")
                     break
+
+    async def connect_async(self) -> None:
+        """
+        Wrapper for async def _connect() to expose the async interface
+        """
+        await self._connect()
+        self.connected = True
 
     def connect(self) -> None:
         """
